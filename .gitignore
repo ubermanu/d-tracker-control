@@ -1,6 +1,5 @@
 .idea
 pkg
 src
-PKGBUILD
 d-tracker-control-git-*
 polybar-d-tracker-control
