@@ -1,1 +1,5 @@
 .idea
+pkg
+src
+PKGBUILD
+d-tracker-control-git-*
