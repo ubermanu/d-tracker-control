@@ -99,7 +99,7 @@ function toggleTask() {
 function usage() {
     echo "\
 Usage: $0 ACTION
-Actions:
+
   help              display this message and exit
   output            print the d-tracker status once
   listen            listen for changes in d-tracker to automatically update
