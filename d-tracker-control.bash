@@ -97,7 +97,17 @@ function toggleTask() {
 
 # print usage
 function usage() {
-    echo "usage"
+    echo "\
+Usage: $0 ACTION
+Actions:
+  help              display this message and exit
+  output            print the d-tracker status once
+  listen            listen for changes in d-tracker to automatically update
+                    this script's output
+  new               creates a new task (prompted with rofi)
+  stop              stops the currently active task
+  toggle            creates a new task if there is no active task,
+                    otherwise stops the currently active task"
 }
 
 case "$1" in
