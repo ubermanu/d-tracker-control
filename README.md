@@ -2,6 +2,18 @@
 
 A script to control and display [d-tracker](https://github.com/drmargarido/d-tracker) in [polybar](https://github.com/polybar/polybar).
 
+## Installation
+
+From Arch User Repository:
+
+    yay -Sy d-tracker-control-git
+
+or manually:
+
+    git clone https://github.com/ubermanu/polybar-d-tracker-control
+    cd polybar-d-tracker-control
+    make install
+
 ## Requirements
 
  * [d-tracker](https://github.com/drmargarido/d-tracker)
