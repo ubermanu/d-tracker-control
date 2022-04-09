@@ -82,7 +82,7 @@ function createTaskCommand() {
     TASK_NEW=$(echo "" | rofi -dmenu -theme-str "entry { placeholder: \"What are you going to do? ($PROJECT_NEW)\"; } listview { enabled: false; }")
 
     if [ "$PROJECT_NEW" != "" ] && [ "$TASK_NEW" != "" ]; then
-        d-tracker-cli add-task $TASK_NEW $PROJECT_NEW
+        d-tracker-cli add-task "$TASK_NEW" "$PROJECT_NEW"
         updateActiveTaskVars
 
         if [ "$TASK" != "" ]; then
