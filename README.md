@@ -33,7 +33,9 @@ type = custom/script
 tail = true
 label-foreground = ${colors.foreground}
 
-exec = d-tracker-control listen
+exec = d-tracker-control output
+interval = 1
+
 click-left = d-tracker-control new
 click-right = d-tracker-control stop
 click-middle = exec d-tracker &
