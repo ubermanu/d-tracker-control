@@ -19,6 +19,20 @@ or manually:
  * [d-tracker](https://github.com/drmargarido/d-tracker)
  * [rofi](https://github.com/davatorium/rofi), for user input
 
+## Preview
+
+When disabled (no currently active task):
+
+![screenshots/inactive.png](screenshots/inactive.png)
+
+When enabled (active task):
+
+ ![screenshots/running.png](screenshots/running.png)
+
+All the format variables are displayed in the help.
+
+    d-tracker-control --help
+
 ## Module
 
 Here is an example:
