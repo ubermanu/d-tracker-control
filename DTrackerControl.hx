@@ -27,8 +27,10 @@ class Task {
     }
 }
 
+// remove the new line at the end of the cmd output
 function exec(cmd:String) {
-    return new Process(cmd).stdout.readAll().toString();
+    var stdout = new Process(cmd).stdout.readAll().toString();
+    return stdout.substr(0, stdout.length - 1);
 }
 
 function parseDate(str:String):Null<Date> {
@@ -55,19 +57,21 @@ final class DTracker {
     }
 
     static public function fetchTodayTasks():Void {
-        var lines = exec('d-tracker-cli list-today-tasks | sed 1,2d').split('\n');
+        var stdout = exec('d-tracker-cli list-today-tasks | sed 1,2d');
 
-        for (line in lines) {
-            if (line.length > 0) {
-                var data = line.split('|');
-                var task = new Task();
-                task.id = Std.parseInt(data[0]);
-                task.description = data[4];
-                task.project = data[1];
-                task.startedAt = parseDate(data[2]);
-                task.endedAt = parseDate(data[3]);
-                DTracker.tasks.push(task);
-            }
+        if (stdout.length == 0) {
+            return;
+        }
+
+        for (line in stdout.split('\n')) {
+            var data = line.split('|');
+            var task = new Task();
+            task.id = Std.parseInt(data[0]);
+            task.description = data[4];
+            task.project = data[1];
+            task.startedAt = parseDate(data[2]);
+            task.endedAt = parseDate(data[3]);
+            DTracker.tasks.push(task);
         }
     }
 
@@ -89,6 +93,12 @@ final class DTracker {
             }
         }
         return null;
+    }
+
+    // when splitting an empty string it returns an array with one empty value
+    static public function getProjects():Array<String> {
+        var stdout = exec("d-tracker-cli list-projects | sed 's/^[0-9]\\+|//g' | sort");
+        return stdout.length > 0 ? stdout.split('\n') : [];
     }
 }
 
@@ -167,8 +177,28 @@ final class DTrackerControl {
         }
     }
 
+    // TODO: Add support for other input methods than rofi
     static public function commandNew() {
-        sendNotification("", "");
+        var project = exec('echo "${DTracker.getProjects().join('\n')}" | rofi -dmenu -theme-str \'entry { placeholder: "What project are you working on?"; }\'');
+
+        if (project.length == 0) {
+            Sys.exit(1);
+        }
+
+        // TODO: Add project in the placeholder msg
+        var description = exec('echo "" | rofi -dmenu -theme-str \'entry { placeholder: "What are you going to do?"; } listview { enabled: false; }\'');
+
+        if (description.length == 0) {
+            Sys.exit(1);
+        }
+
+        Sys.command('d-tracker-cli add-task', [description, project]);
+
+        sendNotification("Task started", [
+            'Description: ${description}',
+            'Project: ${project}',
+            'Started At: ${DateTools.format(Date.now(), "%T")}'
+        ].join('\n'));
     }
 
     static public function commandStop() {
