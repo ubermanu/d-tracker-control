@@ -3,13 +3,17 @@ DESTDIR =
 PREFIX = /usr/local
 BINDIR = /bin
 
-.PHONY: build
+.PHONY: build dev
 
-all:
+all: build install
 
-install: all
+install:
 	$(INSTALL) -d $(DESTDIR)$(PREFIX)$(BINDIR)
-	$(INSTALL) -m755 d-tracker-control.bash $(DESTDIR)$(PREFIX)$(BINDIR)/d-tracker-control
+	$(INSTALL) -m755 build/DTrackerControl $(DESTDIR)$(PREFIX)$(BINDIR)/d-tracker-control
 
 build:
 	haxe build.hxml
+
+# run `make dev action=toggle` for example
+dev:
+	haxe -L captain --run DTrackerControl $(action)
