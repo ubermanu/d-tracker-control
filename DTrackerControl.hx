@@ -86,6 +86,12 @@ final class DTracker {
         }
     }
 
+    // when splitting an empty string it returns an array with one empty value
+    static public function fetchProjects():Array<String> {
+        var stdout = exec("d-tracker-cli list-projects | sed 's/^[0-9]\\+|//g' | sort");
+        return DTracker.projects = (stdout.length > 0 ? stdout.split('\n') : []);
+    }
+
     static public function createTask(task:Task):Void {
         if (task.description.length == 0) {
             throw new Exception('The task description cannot be empty');
@@ -105,12 +111,6 @@ final class DTracker {
         }
         return null;
     }
-
-    // when splitting an empty string it returns an array with one empty value
-    static public function getProjects():Array<String> {
-        var stdout = exec("d-tracker-cli list-projects | sed 's/^[0-9]\\+|//g' | sort");
-        return stdout.length > 0 ? stdout.split('\n') : [];
-    }
 }
 
 final class DTrackerControl {
@@ -125,6 +125,7 @@ final class DTrackerControl {
         }
 
         DTracker.fetchTodayTasks();
+        DTracker.fetchProjects();
 
         command.arguments = [
             {
@@ -215,7 +216,7 @@ final class DTrackerControl {
 
     // TODO: Add support for other input methods than rofi
     static public function commandNew() {
-        var project = exec('echo "${DTracker.getProjects().join('\n')}" | rofi -dmenu -theme-str \'entry { placeholder: "What project are you working on?"; }\'');
+        var project = exec('echo "${DTracker.projects.join('\n')}" | rofi -dmenu -theme-str \'entry { placeholder: "What project are you working on?"; }\'');
 
         if (project.length == 0) {
             Sys.exit(1);
