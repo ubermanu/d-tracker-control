@@ -21,9 +21,14 @@ class Task {
 
     public function elapsedTime() {}
 
-    // TODO: Implement this
-    public function format(params:Array<Any>):String {
-        return "";
+    public function toString():String {
+        var str = format;
+        str = StringTools.replace(str, "<task-name>", this.description);
+        str = StringTools.replace(str, "<task-project>", this.project);
+        str = StringTools.replace(str, "<start-date>", DateTools.format(this.startedAt, "%Y-%m-%d"));
+        str = StringTools.replace(str, "<start-time>", DateTools.format(this.startedAt, "%H:%M:%S"));
+        // str =StringTools.replace(str, "<elapsed-time>")
+        return str;
     }
 }
 
@@ -151,6 +156,31 @@ final class DTrackerControl {
             return;
         }
 
+        switch (command.getOption("format")) {
+            case Some(value):
+                if (value.length > 0) {
+                    format = value;
+                }
+            case None:
+                {}
+        }
+
+        switch (command.getOption("formatInactive")) {
+            case Some(value):
+                if (value.length > 0) {
+                    formatInactive = value;
+                }
+            case None:
+                {}
+        }
+
+        switch (command.getOption("notifications")) {
+            case Some(value):
+                notifications = (value == 'yes');
+            case None:
+                {}
+        }
+
         switch (command.getArgument("action")) {
             case Some(value):
                 {
@@ -171,9 +201,9 @@ final class DTrackerControl {
     static public function commandOutput() {
         var task = DTracker.getActiveTask();
         if (task != null) {
-            Sys.println(task.description);
+            Sys.println(task.toString());
         } else {
-            Sys.println("No task started");
+            Sys.println(formatInactive);
         }
     }
 
@@ -192,7 +222,7 @@ final class DTrackerControl {
             Sys.exit(1);
         }
 
-        Sys.command('d-tracker-cli add-task', [description, project]);
+        Sys.command('d-tracker-cli', ['add-task', description, project]);
 
         sendNotification("Task started", [
             'Description: ${description}',
