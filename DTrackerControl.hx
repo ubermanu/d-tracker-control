@@ -19,7 +19,13 @@ class Task {
         return this.endedAt == null;
     }
 
-    public function elapsedTime() {}
+    public function delta():Date {
+        var end = (this.endedAt != null ? this.endedAt : Date.now());
+        var delta = Date.fromTime(end.getTime() - this.startedAt.getTime());
+
+        // convert the delta to UTC so we don't have timezone coming into play
+        return new Date(delta.getUTCFullYear(), delta.getUTCMonth(), delta.getUTCDate(), delta.getUTCHours(), delta.getUTCMinutes(), delta.getUTCSeconds());
+    }
 
     public function toString():String {
         var str = format;
@@ -27,7 +33,7 @@ class Task {
         str = StringTools.replace(str, "<task-project>", this.project);
         str = StringTools.replace(str, "<start-date>", DateTools.format(this.startedAt, "%Y-%m-%d"));
         str = StringTools.replace(str, "<start-time>", DateTools.format(this.startedAt, "%H:%M:%S"));
-        // str =StringTools.replace(str, "<elapsed-time>")
+        str = StringTools.replace(str, "<elapsed-time>", DateTools.format(this.delta(), "%H:%M:%S"));
         return str;
     }
 }
