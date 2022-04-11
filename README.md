@@ -4,9 +4,9 @@ A script to control and display [d-tracker](https://github.com/drmargarido/d-tra
 
 ## Installation
 
-From Arch User Repository:
+From AUR:
 
-    yay -Sy d-tracker-control-git
+    yay -Sy d-tracker-control-git ttf-nerd-fonts-symbols
 
 or manually:
 
