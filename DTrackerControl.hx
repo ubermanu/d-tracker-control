@@ -48,7 +48,7 @@ final class DTracker {
     static public var tasks:Array<Task> = [];
     static public var projects:Array<String> = [];
 
-    static public function checkIfInstalled() {
+    static public function assertInstalled() {
         if (exec('which d-tracker-cli').length == 0) {
             throw new Exception('Could not find d-tracker-cli in path');
         }
@@ -93,17 +93,17 @@ final class DTracker {
 }
 
 final class DTrackerControl {
+    static public var command = new Command(Sys.args());
+
     static public function main() {
         try {
-            DTracker.checkIfInstalled();
+            DTracker.assertInstalled();
         } catch (e:Exception) {
             Sys.println(e.message);
-            return;
+            Sys.exit(1);
         }
 
         DTracker.fetchTodayTasks();
-
-        var command = new Command(Sys.args());
 
         command.arguments = [
             {
@@ -145,35 +145,51 @@ final class DTrackerControl {
             case Some(value):
                 {
                     switch (value) {
-                        case "output": {
-                                var task = DTracker.getActiveTask();
-                                if (task != null) {
-                                    Sys.println(task.description);
-                                } else {
-                                    Sys.println("No task started");
-                                }
-                            }
-                        case "new": {
-                                sendNotification("", "");
-                            }
-                        case "stop": {
-                                var task = DTracker.getActiveTask();
-                                if (task != null) {
-                                    Sys.command("d-tracker-cli stop-in-progress");
-                                    sendNotification("Task stopped", [
-                                        'Description: ${task.description}',
-                                        'Project: ${task.project}',
-                                        'Started At: ${DateTools.format(task.startedAt, "%T")}',
-                                        'Stopped At: ${DateTools.format(Date.now(), "%T")}'
-                                    ].join('\n'));
-                                }
-                            }
+                        case "output": return DTrackerControl.commandOutput();
+                        case "new": return DTrackerControl.commandNew();
+                        case "stop": return DTrackerControl.commandStop();
+                        case "toggle": return DTrackerControl.commandToggle();
                     }
                 }
             case None:
-                {
-                    Sys.println(command.getInstructions());
-                }
+                {}
         };
+
+        Sys.println(command.getInstructions());
+    }
+
+    static public function commandOutput() {
+        var task = DTracker.getActiveTask();
+        if (task != null) {
+            Sys.println(task.description);
+        } else {
+            Sys.println("No task started");
+        }
+    }
+
+    static public function commandNew() {
+        sendNotification("", "");
+    }
+
+    static public function commandStop() {
+        var task = DTracker.getActiveTask();
+        if (task != null) {
+            Sys.command("d-tracker-cli stop-in-progress");
+            sendNotification("Task stopped", [
+                'Description: ${task.description}',
+                'Project: ${task.project}',
+                'Started At: ${DateTools.format(task.startedAt, "%T")}',
+                'Stopped At: ${DateTools.format(Date.now(), "%T")}'
+            ].join('\n'));
+        }
+    }
+
+    static public function commandToggle() {
+        var task = DTracker.getActiveTask();
+        if (task != null) {
+            DTrackerControl.commandStop();
+        } else {
+            DTrackerControl.commandNew();
+        }
     }
 }
