@@ -87,9 +87,9 @@ final class DTracker {
     }
 
     // when splitting an empty string it returns an array with one empty value
-    static public function fetchProjects():Array<String> {
+    static public function fetchProjects():Void {
         var stdout = exec("d-tracker-cli list-projects | sed 's/^[0-9]\\+|//g' | sort");
-        return DTracker.projects = (stdout.length > 0 ? stdout.split('\n') : []);
+        DTracker.projects = (stdout.length > 0 ? stdout.split('\n') : []);
     }
 
     static public function createTask(task:Task):Void {
