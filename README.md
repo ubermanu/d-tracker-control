@@ -6,7 +6,7 @@ A script to control and display [d-tracker](https://github.com/drmargarido/d-tra
 
 From AUR:
 
-    yay -Sy d-tracker-control-git ttf-nerd-fonts-symbols
+    yay -Sy d-tracker-control-git
 
 or manually:
 
