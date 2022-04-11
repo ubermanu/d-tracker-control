@@ -1,3 +1,4 @@
+import DTrackerControl.notifications;
 import sys.io.Process;
 import haxe.Exception;
 import captain.Command;
@@ -152,9 +153,10 @@ final class DTrackerControl {
                 description: "Set the format for the inactive state.",
             },
             {
-                name: "notifications",
-                shortName: "n",
-                description: "Enable or disable notifications.",
+                name: "quiet",
+                shortName: "q",
+                description: "Disable notifications.",
+                boolean: true,
             },
         ];
 
@@ -181,9 +183,9 @@ final class DTrackerControl {
                 {}
         }
 
-        switch (command.getOption("notifications")) {
+        switch (command.getOption("quiet")) {
             case Some(value):
-                notifications = (value == 'yes');
+                notifications = false;
             case None:
                 {}
         }
