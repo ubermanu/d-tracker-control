@@ -223,8 +223,7 @@ final class DTrackerControl {
             Sys.exit(1);
         }
 
-        // TODO: Add project in the placeholder msg
-        var description = exec('echo "" | rofi -dmenu -theme-str \'entry { placeholder: "What are you going to do?"; } listview { enabled: false; }\'');
+        var description = exec('echo "" | rofi -dmenu -theme-str \'entry { placeholder: "What are you going to do? (' + project + ')"; } listview { enabled: false; }\'');
 
         if (description.length == 0) {
             Sys.exit(1);
