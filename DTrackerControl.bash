@@ -1,7 +1,7 @@
 #!/bin/bash
 
-FORMAT=' <task-name> (<task-project>) <elapsed-time>'
-FORMAT_INACTIVE='%{F#6b6b6b} Start a new task%{F-}'
+FORMAT=' <task-name> (<task-project>) <elapsed-time>'
+FORMAT_INACTIVE='%{F#6b6b6b}%{F-}'
 NOTIFICATIONS="yes"
 
 # task related variables (globally stored)
