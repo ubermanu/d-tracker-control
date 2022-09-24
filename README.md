@@ -23,11 +23,11 @@ or manually:
 
 When disabled (no currently active task):
 
-![screenshots/inactive.png](screenshots/inactive.png)
+![inactive](screenshots/inactive.jpg)
 
 When enabled (active task):
 
- ![screenshots/running.png](screenshots/running.png)
+ ![running.png](screenshots/running.jpg)
 
 All the format variables are displayed in the help.
 
