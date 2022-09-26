@@ -1,9 +1,10 @@
 INSTALL = /bin/install -c
 DESTDIR =
-PREFIX = /usr/local
 BINDIR = /bin
 
-all: install
+ifeq ($(PREFIX),)
+	PREFIX := /usr/local
+endif
 
 install:
 	$(INSTALL) -d $(DESTDIR)$(PREFIX)$(BINDIR)
