@@ -6,7 +6,7 @@ A script to control and display [d-tracker](https://github.com/drmargarido/d-tra
 
 With [bpkg](https://github.com/bpkg/bpkg):
 
-    bpkg install ubermanu/polybar-d-tracker-control -g
+    bpkg install -g ubermanu/polybar-d-tracker-control
 
 or manually:
 
