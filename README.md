@@ -4,9 +4,9 @@ A script to control and display [d-tracker](https://github.com/drmargarido/d-tra
 
 ## Installation
 
-From AUR:
+With [bpkg](https://github.com/bpkg/bpkg):
 
-    yay -Sy d-tracker-control-git
+    bpkg install ubermanu/polybar-d-tracker-control -g
 
 or manually:
 
