@@ -1,0 +1,10 @@
+{
+  "name": "polybar-d-tracker-control",
+  "version": "0.1.0",
+  "description": "Script to control and display d-tracker in Polybar",
+  "global": "1",
+  "install": "install -b DTrackerControl.bash ${PREFIX:-/usr/local}/bin/d-tracker-control",
+  "scripts": [
+    "DTrackerControl.bash"
+  ]
+}
